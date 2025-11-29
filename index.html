@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Photo Resizer for Admission</title>
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#f5f5f5;
+        padding:15px;
+        text-align:center;
+    }
+    .container{
+        width:320px;
+        margin:auto;
+        padding:15px;
+        background:#fff;
+        border-radius:12px;
+        box-shadow:0 0 10px rgba(0,0,0,0.2);
+    }
+    input, button{
+        width:100%;
+        padding:7px;
+        margin-top:8px;
+        border-radius:8px;
+        border:1px solid #ccc;
+    }
+    #previewBox{
+        width:280px;
+        height:280px;
+        border:2px solid #000;
+        margin:12px auto;
+        overflow:hidden;
+        position:relative;
+        display:none;
+        border-radius:8px;
+        background:#ddd;
+    }
+    #previewImg{
+        position:absolute;
+        top:0; left:0;
+        cursor:grab;
+        transform-origin: top left;
+    }
+    .zoomBtns{
+        display:flex;
+        justify-content:space-between;
+        margin-top:8px;
+    }
+    .zoomBtns button{
+        width:48%;
+        padding:8px;
+        border:none;
+        border-radius:8px;
+        background:#007bff;
+        color:#fff;
+        font-weight:bold;
+    }
+    .joystick{
+        width:120px;
+        margin:12px auto 0 auto;
+        display:grid;
+        grid-template-columns: 40px 40px 40px;
+        grid-gap:5px;
+    }
+    .joybtn{
+        padding:8px;
+        background:#444;
+        color:#fff;
+        border:none;
+        border-radius:6px;
+        font-size:16px;
+        cursor:pointer;
+    }
+    #outputBox{
+        margin-top:10px;
+        display:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Photo Resizer for Admission </h2>
+
+    <input type="file" id="upload" accept="image/*">
+
+    <div id="previewBox">
+        <img id="previewImg">
+    </div>
+
+    <div class="zoomBtns">
+        <button id="zoomOut">– Zoom Out</button>
+        <button id="zoomIn">+ Zoom In</button>
+    </div>
+
+    <!-- Joystick Buttons -->
+    <div class="joystick">
+        <div></div>
+        <button class="joybtn" id="up">⬆</button>
+        <div></div>
+        <button class="joybtn" id="left">⬅</button>
+        <div></div>
+        <button class="joybtn" id="right">➡</button>
+        <div></div>
+        <button class="joybtn" id="down">⬇</button>
+        <div></div>
+    </div>
+
+    <input type="number" id="w" value="300" placeholder="Width (px)">
+    <input type="number" id="h" value="300" placeholder="Height (px)">
+    <input type="number" id="targetSize" value="50" placeholder="Target Size (KB)">
+
+    <button id="convertBtn" style="background:#28a745;color:#fff;">Convert</button>
+
+    <div id="outputBox">
+        <h4>Converted Image</h4>
+        <img id="finalImg" style="width:100%;border-radius:8px;">
+        <button id="downloadBtn" style="background:#ff5722;color:#fff;margin-top:10px;">Download</button>
+    </div>
+  
+</div>
+<footer style="
+    margin-top:20px;
+    padding:10px;
+    font-size:14px;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 0 8px rgba(0,0,0,0.15);
+    width:320px;
+    margin-left:auto;
+    margin-right:auto;
+">
+    © Mahin • 
+    <a href="https://youtube.com/@itzMahin" 
+       target="_blank" 
+       style="color:#007bff; text-decoration:none; font-weight:bold;">
+       Subscribe Our Channel
+    </a>
+</footer>
+<script>
+let img = document.getElementById("previewImg");
+let box = document.getElementById("previewBox");
+let upload = document.getElementById("upload");
+let zoomLevel = 1;
+let pos = { x:0, y:0, drag:false, startX:0, startY:0 };
+
+upload.onchange = e => {
+    let file = e.target.files[0];
+    if(!file) return;
+    img.src = URL.createObjectURL(file);
+    zoomLevel = 1;
+    pos.x = 0; pos.y = 0;
+    img.style.transform = "scale(1)";
+    img.style.top = "0px";
+    img.style.left = "0px";
+    box.style.display = "block";
+};
+
+document.getElementById("zoomIn").onclick = () => {
+    zoomLevel += 0.1;
+    img.style.transform = `scale(${zoomLevel})`;
+};
+document.getElementById("zoomOut").onclick = () => {
+    if(zoomLevel > 0.3){
+        zoomLevel -= 0.1;
+        img.style.transform = `scale(${zoomLevel})`;
+    }
+};
+
+// Drag Image
+img.onmousedown = e => {
+    pos.drag = true;
+    pos.startX = e.clientX - pos.x;
+    pos.startY = e.clientY - pos.y;
+};
+document.onmousemove = e => {
+    if(pos.drag){
+        pos.x = e.clientX - pos.startX;
+        pos.y = e.clientY - pos.startY;
+        img.style.left = pos.x + "px";
+        img.style.top = pos.y + "px";
+    }
+};
+document.onmouseup = () => pos.drag = false;
+
+// Joystick movement
+function moveImg(dx, dy){
+    pos.x += dx;
+    pos.y += dy;
+    img.style.left = pos.x + "px";
+    img.style.top = pos.y + "px";
+}
+document.getElementById("up").onclick = ()=> moveImg(0, -5);
+document.getElementById("down").onclick = ()=> moveImg(0, 5);
+document.getElementById("left").onclick = ()=> moveImg(-5, 0);
+document.getElementById("right").onclick = ()=> moveImg(5, 0);
+
+// Convert
+document.getElementById("convertBtn").onclick = () => {
+    let w = parseInt(document.getElementById("w").value);
+    let h = parseInt(document.getElementById("h").value);
+    let targetKB = parseInt(document.getElementById("targetSize").value);
+
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
+    canvas.width = w;
+    canvas.height = h;
+
+    let rect = box.getBoundingClientRect();
+    let imgRect = img.getBoundingClientRect();
+
+    let scale = zoomLevel;
+
+    let sx = (rect.left - imgRect.left) / scale;
+    let sy = (rect.top - imgRect.top) / scale;
+    let sw = rect.width / scale;
+    let sh = rect.height / scale;
+
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+
+    let quality = 0.9;
+    let result;
+    do {
+        result = canvas.toDataURL("image/jpeg", quality);
+        quality -= 0.05;
+    } while(result.length/1024 > targetKB && quality>0);
+
+    document.getElementById("finalImg").src = result;
+    document.getElementById("outputBox").style.display = "block";
+
+    document.getElementById("downloadBtn").onclick = () => {
+        let a = document.createElement("a");
+        a.href = result;
+        a.download = "resized_by_mahin.jpg";
+        a.click();
+    };
+};
+</script>
+</body>
+</html>
