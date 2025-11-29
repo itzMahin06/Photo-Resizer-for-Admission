@@ -5,145 +5,137 @@
 <title>Photo Resizer for Admission</title>
 <style>
     body{
-    font-family: Arial, sans-serif;
-    background:#f5f5f5;
-    padding:12px;
-    margin:0;
-    text-align:center;
+        font-family: Arial, sans-serif;
+        background:#f5f5f5;
+        padding:12px;
+        margin:0;
+        text-align:center;
+    }
+
+    .container{
+        width:100%;
+        margin:auto;
+        padding:15px;
+        background:#fff;
+        border-radius:12px;
+        box-shadow:0 0 10px rgba(0,0,0,0.2);
+    }
+
+    input, button{
+        width:100%;
+        padding:10px;
+        margin-top:10px;
+        border-radius:8px;
+        border:1px solid #ccc;
+        font-size:15px;
+    }
+
+    #previewBox{
+        border:2px solid #000;
+        margin:15px auto;
+        overflow:hidden;
+        position:relative;
+        display:none;
+        border-radius:8px;
+        background:#ddd;
+    }
+
+    #previewImg{
+        position:absolute;
+        top:0; 
+        left:0;
+        cursor:grab;
+        transform-origin: top left;
+    }
+
+    .zoomBtns{
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        margin-top:8px;
+    }
+    .zoomBtns button{
+        flex:1;
+        padding:10px;
+        border:none;
+        border-radius:8px;
+        background:#007bff;
+        color:#fff;
+        font-weight:bold;
+        font-size:15px;
+    }
+
+    .joystick{
+        width:150px;
+        margin:12px auto 0 auto;
+        display:grid;
+        grid-template-columns: 50px 50px 50px;
+        grid-gap:8px;
+    }
+    .joybtn{
+        padding:10px;
+        background:#444;
+        color:#fff;
+        border:none;
+        border-radius:6px;
+        font-size:18px;
+        cursor:pointer;
+    }
+
+    #outputBox{
+        margin-top:15px;
+        display:none;
+    }
+    .footer {
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  margin-top: 30px;
 }
 
-.container{
-    width:100%;
-    
-    margin:auto;
-    padding:15px;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 0 10px rgba(0,0,0,0.2);
+.footer a {
+  color: #00e1ff;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-/* Inputs & Buttons */
-input, button{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:15px;
+.footer a:hover {
+  text-decoration: underline;
 }
-
-/* Preview box – mobile adaptive */
-#previewBox{
-    width:100%;
-    max-width:300px;
-    height:300px;
-    border:2px solid #000;
-    margin:15px auto;
-    overflow:hidden;
-    position:relative;
-    display:none;
-    border-radius:8px;
-    background:#ddd;
-}
-
-/* Image inside preview */
-#previewImg{
-    position:absolute;
-    top:0; 
-    left:0;
-    cursor:grab;
-    transform-origin: top left;
-}
-
-/* Zoom buttons */
-.zoomBtns{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    margin-top:8px;
-}
-
-.zoomBtns button{
-    flex:1;
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    background:#007bff;
-    color:#fff;
-    font-weight:bold;
-    font-size:15px;
-}
-
-/* Joystick grid */
-.joystick{
-    width:150px;
-    margin:12px auto 0 auto;
-    display:grid;
-    grid-template-columns: 50px 50px 50px;
-    grid-gap:8px;
-}
-
-.joybtn{
-    padding:10px;
-    background:#444;
-    color:#fff;
-    border:none;
-    border-radius:6px;
-    font-size:18px;
-    cursor:pointer;
-}
-
-/* Output box */
-#outputBox{
-    margin-top:15px;
-    display:none;
-}
-
-/* Footer */
-footer{
-    margin-top:20px;
-    padding:10px;
-    font-size:14px;
-    background:#fff;
-    border-radius:10px;
-    box-shadow:0 0 8px rgba(0,0,0,0.15);
-    width:100%;
-    max-width:340px;
-    margin-left:auto;
-    margin-right:auto;
-}
-
-footer a{
-    color:#007bff; 
-    text-decoration:none; 
-    font-weight:bold;
-}
-
-        
-        
-        
-        
-        
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Photo Resizer for Admission </h2>
 
+    <h2>Photo Resizer for Admission</h2>
+
+    <!-- Upload -->
     <input type="file" id="upload" accept="image/*">
 
+    <!-- Inputs before preview -->
+    <input type="number" id="w" value="300" placeholder="Width (px)">
+    <input type="number" id="h" value="300" placeholder="Height (px)">
+    <input type="number" id="targetSize" value="50" placeholder="Max File Size (KB)">
+
+    <button id="generate" style="background:#673ab7;color:#fff;">Generate Preview</button>
+
+    <!-- Preview Box -->
     <div id="previewBox">
         <img id="previewImg">
     </div>
 
-    <div class="zoomBtns">
+    <!-- Zoom Buttons -->
+    <div class="zoomBtns" style="display:none;" id="zoomSection">
         <button id="zoomOut">– Zoom Out</button>
         <button id="zoomIn">+ Zoom In</button>
     </div>
 
-    <!-- Joystick Buttons -->
-    <div class="joystick">
+    <!-- Joystick -->
+    <div class="joystick" id="joySection" style="display:none;">
         <div></div>
         <button class="joybtn" id="up">⬆</button>
         <div></div>
@@ -155,56 +147,62 @@ footer a{
         <div></div>
     </div>
 
-    <input type="number" id="w" value="300" placeholder="Width (px)">
-    <input type="number" id="h" value="300" placeholder="Height (px)">
-    <input type="number" id="targetSize" value="50" placeholder="Target Size (KB)">
+    <!-- Convert Button -->
+    <button id="convertBtn" style="background:#28a745;color:#fff;display:none;">Convert</button>
 
-    <button id="convertBtn" style="background:#28a745;color:#fff;">Convert</button>
-
+    <!-- Output -->
     <div id="outputBox">
         <h4>Converted Image</h4>
         <img id="finalImg" style="width:100%;border-radius:8px;">
         <button id="downloadBtn" style="background:#ff5722;color:#fff;margin-top:10px;">Download</button>
     </div>
-  
+
 </div>
-<footer style="
-    margin-top:20px;
-    padding:10px;
-    font-size:14px;
-    background:#fff;
-    border-radius:10px;
-    box-shadow:0 0 8px rgba(0,0,0,0.15);
-    width:320px;
-    margin-left:auto;
-    margin-right:auto;
-">
-    © Mahin • 
-    <a href="https://youtube.com/@itzMahin" 
-       target="_blank" 
-       style="color:#007bff; text-decoration:none; font-weight:bold;">
-       Subscribe Our Channel
+<footer class="footer">
+  <p>© Mahin • 
+    <a href="https://youtube.com/@itzMahin" target="_blank">
+      Subscribe Our Channel
     </a>
+  </p>
 </footer>
+    
 <script>
 let img = document.getElementById("previewImg");
 let box = document.getElementById("previewBox");
 let upload = document.getElementById("upload");
 let zoomLevel = 1;
 let pos = { x:0, y:0, drag:false, startX:0, startY:0 };
+let uploadedFile = null;
 
+/* Upload */
 upload.onchange = e => {
-    let file = e.target.files[0];
-    if(!file) return;
-    img.src = URL.createObjectURL(file);
+    uploadedFile = e.target.files[0];
+};
+
+/* Generate Preview */
+document.getElementById("generate").onclick = () => {
+    if(!uploadedFile) return alert("Please upload an image first!");
+
+    let w = parseInt(document.getElementById("w").value);
+    let h = parseInt(document.getElementById("h").value);
+
+    box.style.width = w + "px";
+    box.style.height = h + "px";
+
+    img.src = URL.createObjectURL(uploadedFile);
     zoomLevel = 1;
     pos.x = 0; pos.y = 0;
     img.style.transform = "scale(1)";
     img.style.top = "0px";
     img.style.left = "0px";
+
     box.style.display = "block";
+    document.getElementById("zoomSection").style.display = "flex";
+    document.getElementById("joySection").style.display = "grid";
+    document.getElementById("convertBtn").style.display = "block";
 };
 
+/* Zoom */
 document.getElementById("zoomIn").onclick = () => {
     zoomLevel += 0.1;
     img.style.transform = `scale(${zoomLevel})`;
@@ -216,7 +214,7 @@ document.getElementById("zoomOut").onclick = () => {
     }
 };
 
-// Drag Image
+/* Drag */
 img.onmousedown = e => {
     pos.drag = true;
     pos.startX = e.clientX - pos.x;
@@ -232,7 +230,7 @@ document.onmousemove = e => {
 };
 document.onmouseup = () => pos.drag = false;
 
-// Joystick movement
+/* Joystick */
 function moveImg(dx, dy){
     pos.x += dx;
     pos.y += dy;
@@ -243,8 +241,8 @@ document.getElementById("up").onclick = ()=> moveImg(0, -10);
 document.getElementById("down").onclick = ()=> moveImg(0, 10);
 document.getElementById("left").onclick = ()=> moveImg(-10, 0);
 document.getElementById("right").onclick = ()=> moveImg(10, 0);
- 
-// Convert
+
+/* Convert */
 document.getElementById("convertBtn").onclick = () => {
     let w = parseInt(document.getElementById("w").value);
     let h = parseInt(document.getElementById("h").value);
@@ -255,7 +253,6 @@ document.getElementById("convertBtn").onclick = () => {
     canvas.width = w;
     canvas.height = h;
 
-    // ✅ Fill canvas with white background
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, w, h);
 
@@ -273,6 +270,7 @@ document.getElementById("convertBtn").onclick = () => {
 
     let quality = 0.9;
     let result;
+
     do {
         result = canvas.toDataURL("image/jpeg", quality);
         quality -= 0.05;
@@ -288,7 +286,7 @@ document.getElementById("convertBtn").onclick = () => {
         a.click();
     };
 };
-
 </script>
+
 </body>
 </html>
