@@ -243,7 +243,7 @@ document.getElementById("up").onclick = ()=> moveImg(0, -5);
 document.getElementById("down").onclick = ()=> moveImg(0, 5);
 document.getElementById("left").onclick = ()=> moveImg(-5, 0);
 document.getElementById("right").onclick = ()=> moveImg(5, 0);
-
+ 
 // Convert
 document.getElementById("convertBtn").onclick = () => {
     let w = parseInt(document.getElementById("w").value);
@@ -254,6 +254,10 @@ document.getElementById("convertBtn").onclick = () => {
     let ctx = canvas.getContext("2d");
     canvas.width = w;
     canvas.height = h;
+
+    // ✅ Fill canvas with white background
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, w, h);
 
     let rect = box.getBoundingClientRect();
     let imgRect = img.getBoundingClientRect();
@@ -272,7 +276,7 @@ document.getElementById("convertBtn").onclick = () => {
     do {
         result = canvas.toDataURL("image/jpeg", quality);
         quality -= 0.05;
-    } while(result.length/1024 > targetKB && quality>0);
+    } while(result.length/1024 > targetKB && quality > 0);
 
     document.getElementById("finalImg").src = result;
     document.getElementById("outputBox").style.display = "block";
@@ -284,6 +288,7 @@ document.getElementById("convertBtn").onclick = () => {
         a.click();
     };
 };
+
 </script>
 </body>
 </html>
