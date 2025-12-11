@@ -181,6 +181,8 @@
     #down { grid-column: 2; grid-row: 3; }
 
 </style>
+   
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
 
@@ -205,15 +207,15 @@
     </div>
 
     <div class="zoomBtns" style="display:none;" id="zoomSection">
-        <button id="zoomOut">– Zoom Out</button>
-        <button id="zoomIn">+ Zoom In</button>
+        <button id="zoomOut"><i class="bi bi-zoom-out"></i> Zoom Out</button>
+        <button id="zoomIn"><i class="bi bi-zoom-in"></i> Zoom In</button>
     </div>
 
     <div class="joystick" id="joySection" style="display:none;">
-        <button class="joybtn" id="up">⬆</button>
-        <button class="joybtn" id="left">⬅</button>
-        <button class="joybtn" id="right">➡</button>
-        <button class="joybtn" id="down">⬇</button>
+        <button class="joybtn" id="up"><i class="bi bi-arrow-up"></i></button>
+        <button class="joybtn" id="left"><i class="bi bi-arrow-left"></i></button>
+        <button class="joybtn" id="right"><i class="bi bi-arrow-right"></i></button>
+        <button class="joybtn" id="down"><i class="bi bi-arrow-down"></i></button>
     </div>
 
     <button id="convertBtn" style="background:#28a745;color:#fff;display:none;">Convert Image</button>
