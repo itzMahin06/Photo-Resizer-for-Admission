@@ -158,21 +158,33 @@
         box-shadow: 0 12px 25px rgba(0,0,0,0.22);
     }
 
-    .footer {
-        width: 100%;
-        text-align: center;
-        padding: 20px 0;
-        background: #111;
-        color: #fff;
-        font-size: 14px;
-        margin-top: 40px;
-    }
+   .footer{
+    background-color: rgb(240, 240, 240);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgb(216, 216, 216);
+    color: rgb(80, 80, 80);
+    flex-direction: row;
+    gap: 18px;
+    font-size: 0.8rem;
+    padding:20px 0px;
+}
 
-    .footer a {
-        color: #00e1ff;
-        text-decoration: none;
-        font-weight: 600;
+@media only screen and (max-width: 999px) {
+    footer {
+        flex-direction: column;
+        gap:0px;
     }
+}
+
+footer a{
+    text-decoration: none;
+    color: inherit;
+};
+footer a:hover{
+    text-decoration: underline;
+};
 
     /* Grid positioning for joystick */
     #up { grid-column: 2; grid-row: 1; }
@@ -180,11 +192,75 @@
     #right { grid-column: 3; grid-row: 2; }
     #down { grid-column: 2; grid-row: 3; }
 
+   header{
+    grid-area: header;
+}
+   header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #fff;
+    -webkit-box-shadow: 0 3px 6px 0 rgba(50, 50, 50, .3);
+    box-shadow: 0 3px 6px 0 rgba(50, 50, 50, .3);
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 1000;
+    transition: top 0.8s ease-in-out;
+}
+   .layout {  
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* grid-template-rows: 60px minmax(calc(100vh - 160px), auto) 100px; */
+    /* grid-template-rows: 60px minmax(0, 1fr) auto; */
+    grid-template-rows: 60px 1fr auto;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+                "header"
+                "main"
+                "footer";
+}
+   .brand a{
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: green;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+.brand img{
+    height: 30px;
+    margin-right: 10px;
+}
+   
+
 </style>
    
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
+         <header>     
+
+    <div style="flex:1;">
+        <nav>
+            <div class="brand">
+                <a href="/" title="Mahin">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixjYheoQWtMj5aR7uUcKdyR7N2zceniFB1QkZ6zo_xIbUdS7F4Xf4v7PQUoOtkicXIUMS-kaE71W2VkYeeefas9b-Ww-dHV0UhMi3mF40THgHcO1ohPVL0IjbThvcruOGo0UcS_FE63hF2ggml4cLwsMkaWabC5jLzR7NUF_uK5Xtpe8RDZEAJEsAzQqc/s1600/IMG_1617.jpeg" alt="Photobip Logo">
+                   Photo Resizer- MAHIN
+                </a>
+            </div>
+
+            
+        </nav>
+    </div>
+    
+</header>      
 
 <div class="container">
 
@@ -235,13 +311,10 @@
                     </a>
 </div>
 
-<footer class="footer">
-  <p>© Mahin • 
-    <a href="https://youtube.com/@itzMahin" target="_blank">
-      Subscribe Our Channel
-    </a>
-  </p>
-</footer>
+<footer>
+    <div>©2025 Photo Resizer- MAHIN</div>
+
+</footer>        </div>
     
 <script>
 let img = document.getElementById("previewImg");
