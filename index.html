@@ -212,20 +212,7 @@ footer a:hover{
     z-index: 1000;
     transition: top 0.8s ease-in-out;
 }
-   .layout {  
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr;
-    /* grid-template-rows: 60px minmax(calc(100vh - 160px), auto) 100px; */
-    /* grid-template-rows: 60px minmax(0, 1fr) auto; */
-    grid-template-rows: 60px 1fr auto;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-                "header"
-                "main"
-                "footer";
-}
+   
    .brand a{
     text-decoration: none;
     display: flex;
@@ -251,7 +238,7 @@ footer a:hover{
         <nav>
             <div class="brand">
                 <a href="/" title="Mahin">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixjYheoQWtMj5aR7uUcKdyR7N2zceniFB1QkZ6zo_xIbUdS7F4Xf4v7PQUoOtkicXIUMS-kaE71W2VkYeeefas9b-Ww-dHV0UhMi3mF40THgHcO1ohPVL0IjbThvcruOGo0UcS_FE63hF2ggml4cLwsMkaWabC5jLzR7NUF_uK5Xtpe8RDZEAJEsAzQqc/s1600/IMG_1617.jpeg" alt="Photobip Logo">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixjYheoQWtMj5aR7uUcKdyR7N2zceniFB1QkZ6zo_xIbUdS7F4Xf4v7PQUoOtkicXIUMS-kaE71W2VkYeeefas9b-Ww-dHV0UhMi3mF40THgHcO1ohPVL0IjbThvcruOGo0UcS_FE63hF2ggml4cLwsMkaWabC5jLzR7NUF_uK5Xtpe8RDZEAJEsAzQqc/s1600/IMG_1617.jpeg" alt="Mahin Logo">
                    Photo Resizer- MAHIN
                 </a>
             </div>
@@ -299,7 +286,7 @@ footer a:hover{
     <div id="outputBox">
         <h4>Converted Image</h4>
         <img id="finalImg" style="width:100%; max-width:300px; border-radius:8px; margin-top:10px; border:1px solid #ddd;">
-        <button id="downloadBtn" style="background:#ff5722;color:#fff;margin-top:10px;">Download</button>
+        <button id="downloadBtn" style="background:#ff5722;color:#fff;margin-top:10px;"><i class="bi bi-cloud-arrow-down"></i> Download</button>
     </div>
 
     <a href="https://imgresize.maahin.my.id/sign" class="nice-btn" target="_blank">
