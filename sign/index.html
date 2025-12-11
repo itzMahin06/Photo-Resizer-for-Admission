@@ -12,7 +12,25 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-        
+        <style>
+             /* Style for the Black & White button */
+#bnwButton {
+    /* Assuming your other buttons have a similar look */
+    background-color: #5bc0de; /* A different color for distinction, like info blue */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#bnwButton:hover {
+    background-color: #31b0d5; /* Darker on hover */
+}
+        </style>
 
 
     </head>
@@ -102,7 +120,10 @@
                             </div>
                         </div>
 
-                        <button id="resetButton" title="Reset changes" onclick="resetTransformations()">Reset</button>
+                        <button id="resetButton" title="Reset changes" onclick="resetTransformations()">Reset</button> 
+                        
+<button id="bnwButton" title="Apply Black & White filter" onclick="toggleBlackAndWhite()"> Make B&W</button>
+
                         <button id="downloadButton" title="Download resized photo" onclick="downloadImage()">Download</button>
 
                         
@@ -120,6 +141,90 @@
         <script src="https://photobip.com/assets/js/hamb-candy-menu.js"></script>
         <script src="https://photobip.com/assets/js/teletalk-signature-resizer.js"></script>
 
+         <script>
+         // Global variable to track the filter state
+let isBlackAndWhite = false;
+
+// Function to toggle the Black & White filter
+function toggleBlackAndWhite() {
+    const canvas = document.getElementById('previewCanvas');
+    if (!canvas) return; // Exit if canvas not found
+
+    isBlackAndWhite = !isBlackAndWhite; // Toggle the state
+
+    const ctx = canvas.getContext('2d');
+    const bnwButton = document.getElementById('bnwButton');
+
+    // Apply or remove the filter
+    if (isBlackAndWhite) {
+        // Set the canvas filter to grayscale
+        ctx.filter = 'grayscale(100%)';
+        // Update button text/title
+        if (bnwButton) {
+            bnwButton.textContent = 'Color';
+            bnwButton.title = 'Remove Black & White filter';
+        }
+    } else {
+        // Remove the filter
+        ctx.filter = 'none';
+        // Update button text/title
+        if (bnwButton) {
+            bnwButton.textContent = 'B&W';
+            bnwButton.title = 'Apply Black & White filter';
+        }
+    }
+
+    // Since the filter is applied directly to the canvas context, 
+    // we just need to re-draw the image with the current transformations.
+    // Assuming you have a function to redraw the image (like applyTransform() or redrawImage())
+    // Call the function that redraws the image based on current parameters.
+    applyTransform(); // Assuming this function handles the re-draw
+}
+
+// IMPORTANT: You must also ensure that your main drawing function (likely `applyTransform()` 
+// or the function that draws the image initially) **re-applies the filter state** // every time it draws, especially if other controls (pan, zoom, rotate) are used.
+
+// Modify your `applyTransform()` (or similar redraw function) to include the filter check:
+// --- Example Modification for applyTransform ---
+function applyTransform() {
+    // ... existing code ...
+
+    // Set the filter before drawing the image
+    const canvas = document.getElementById('previewCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Apply B&W filter if the state is true, otherwise 'none'
+    ctx.filter = isBlackAndWhite ? 'grayscale(100%)' : 'none';
+
+    // ... existing code for drawing the image with pan, zoom, rotate ...
+    // e.g., ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
+    // After drawing, it's good practice to reset the filter if you draw other things
+    // e.g., ctx.filter = 'none'; 
+}
+
+// Also, when the canvas is reset/cleared (e.g., in `resetCanvas()` or `resetTransformations()`), 
+// you should reset the B&W state and button appearance:
+function resetTransformations() {
+    // ... existing reset logic ...
+    
+    // Reset B&W state
+    isBlackAndWhite = false;
+    const bnwButton = document.getElementById('bnwButton');
+    if (bnwButton) {
+        bnwButton.textContent = 'B&W';
+        bnwButton.title = 'Apply Black & White filter';
+    }
+
+    // Clear the canvas filter state
+    const canvas = document.getElementById('previewCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.filter = 'none';
+    
+    // ... rest of the reset logic (re-draw, etc.) ...
+}
+         </script> 
+    </body>
         
 
  
