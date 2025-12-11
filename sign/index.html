@@ -1,0 +1,125 @@
+<html lang="en"><head>
+     
+        <!-- Essential Meta Tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>300x80 Pixel Signature Resizer – Free JPG Online Tool | Photobip</title>
+        
+ 
+<link rel="stylesheet" href="https://photobip.com/assets/css/teletalk-signature-resizer.css">
+<link rel="stylesheet" href="https://photobip.com/assets/css/site.css">
+
+
+        
+
+
+    </head>
+    <body>
+        <div class="layout">
+            <header>     
+
+    <div style="flex:1;">
+        <nav>
+            <div class="brand">
+                <a href="/" title="Photobip">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixjYheoQWtMj5aR7uUcKdyR7N2zceniFB1QkZ6zo_xIbUdS7F4Xf4v7PQUoOtkicXIUMS-kaE71W2VkYeeefas9b-Ww-dHV0UhMi3mF40THgHcO1ohPVL0IjbThvcruOGo0UcS_FE63hF2ggml4cLwsMkaWabC5jLzR7NUF_uK5Xtpe8RDZEAJEsAzQqc/s1600/IMG_1617.jpeg" alt="Photobip Logo">
+                   Sign Resizer- MAHIN
+                </a>
+            </div>
+
+            
+        </nav>
+    </div>
+    
+</header>            <!-- Left Menu -->
+
+
+
+            <main>
+
+                <div class="container">
+
+
+                    <h1>300x80 Pixel Signature Resizer</h1>
+                    
+                    <div id="dropZone">
+                        <canvas id="previewCanvas" width="300" height="80"></canvas>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none">
+                        <div id="canvasButtons">
+                            <span>Drag and drop photo, OR</span>
+                            <button id="selectButton" title="Select a photo" onclick="document.getElementById('fileInput').click()">Select Photo</button>
+                        </div>
+                    </div>
+                    <div id="controlButtons">
+                        <button id="reselectButton" title="Remove current photo" onclick="resetCanvas()">Remove</button>
+
+                        <div class="slider-controls controls">
+                            <!-- left/right -->
+                            <div class="control-group">
+                                <button onclick="move('left')">
+                                    <i class="bi bi-arrow-left"></i>
+                                </button>
+                                <input type="range" id="panXSlider" min="-500" max="500" value="0" step="0.5" onchange="applyTransform()" oninput="applyTransform()">
+                                <button onclick="move('right')">
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+
+                            <!-- up/down -->
+                            <div class="control-group">
+                                <button onclick="move('up')">
+                                    <i class="bi bi-arrow-up"></i>
+                                </button>
+                                <input type="range" id="panYSlider" min="-500" max="500" value="0" step="0.5" onchange="applyTransform()" oninput="applyTransform()">
+                                <button onclick="move('down')">
+                                    <i class="bi bi-arrow-down"></i>
+
+                                </button>
+                            </div>
+
+                            <!-- zoom -->
+                            <div class="control-group">
+                                <button onclick="zoom('out')">
+                                    <i class="bi bi-zoom-out"></i>
+                                </button>
+                                <input type="range" id="zoomSlider" min="1" max="500" value="100" step="0.5" onchange="applyTransform()" oninput="applyTransform()">
+                                <button onclick="zoom('in')">
+                                <i class="bi bi-zoom-in"></i>
+                                </button>
+                            </div>
+
+                            <!-- rotate -->
+                            <div class="control-group">
+                                <button onclick="rotate('left')">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+                                <input type="range" id="rotationSlider" min="0" max="360" value="0" step="0.5" onchange="applyTransform()" oninput="applyTransform()">
+                                <button onclick="rotate('right')">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button id="resetButton" title="Reset changes" onclick="resetTransformations()">Reset</button>
+                        <button id="downloadButton" title="Download resized photo" onclick="downloadImage()">Download</button>
+
+                        
+                    </div>
+
+                    
+
+                </div>
+            </main>
+            <footer>
+    <div>©2025 Sign Resizer- MAHIN</div>
+
+</footer>        </div>
+
+        <script src="https://photobip.com/assets/js/hamb-candy-menu.js"></script>
+        <script src="https://photobip.com/assets/js/teletalk-signature-resizer.js"></script>
+
+        
+
+ 
+</html>
