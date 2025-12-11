@@ -110,11 +110,70 @@
             color: #888;
             border-radius: 4px;
         }
+        header{
+    grid-area: header;
+}
+main{
+    grid-area: main;
+}
+footer{
+    grid-area: footer;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #fff;
+    -webkit-box-shadow: 0 3px 6px 0 rgba(50, 50, 50, .3);
+    box-shadow: 0 3px 6px 0 rgba(50, 50, 50, .3);
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 1000;
+    transition: top 0.8s ease-in-out;
+}
+
+nav{
+    display: flex;
+}
+
+.brand a{
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: green;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+.brand img{
+    height: 30px;
+    margin-right: 10px;
+}
 
     </style>
 </head>
 <body>
+<header>     
 
+    <div style="flex:1;">
+        <nav>
+            <div class="brand">
+                <a href="/" title="Mahin">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixjYheoQWtMj5aR7uUcKdyR7N2zceniFB1QkZ6zo_xIbUdS7F4Xf4v7PQUoOtkicXIUMS-kaE71W2VkYeeefas9b-Ww-dHV0UhMi3mF40THgHcO1ohPVL0IjbThvcruOGo0UcS_FE63hF2ggml4cLwsMkaWabC5jLzR7NUF_uK5Xtpe8RDZEAJEsAzQqc/s1600/IMG_1617.jpeg" alt="Mahin  Logo">
+                   Sign Scan Version- MAHIN
+                </a>
+            </div>
+
+            
+        </nav>
+    </div>
+    
+</header>     
     <div class="container">
         <h1>📸 B&W Scan Filter</h1>
 
