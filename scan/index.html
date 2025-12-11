@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B&W Scan Filter</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #convertButton {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #convertButton:hover {
+            background-color: #0056b3;
+        }
+
+        #downloadButton {
+            background-color: #28a745;
+            color: white;
+            display: none; /* Initially hidden */
+        }
+
+        #downloadButton:hover {
+            background-color: #1e7e34;
+        }
+
+        /* Image Display Area */
+        .image-area {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .image-box {
+            text-align: center;
+            flex: 1 1 300px; /* Allows boxes to grow/shrink but keep a min-width */
+        }
+
+        .image-box img, .image-box canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .image-box canvas {
+            display: block; /* Important for canvas */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #eee;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📸 B&W Scan Filter</h1>
+
+        <div class="controls">
+            <input type="file" id="imageUpload" accept="image/*">
+            <button id="convertButton" disabled>Convert to B&W Scan</button>
+            <button id="downloadButton">Download Filtered Image (JPG)</button>
+        </div>
+
+        <div class="image-area">
+            <div class="image-box">
+                <h3>Original Image</h3>
+                <img id="originalImage" src="#" alt="Original Image Preview" style="display: none;">
+                <div id="originalPlaceholder" class="placeholder">Upload an image to start</div>
+            </div>
+
+            <div class="image-box">
+                <h3>Filtered Image (Canvas)</h3>
+                <canvas id="filteredCanvas" style="display: none;"></canvas>
+                <div id="filteredPlaceholder" class="placeholder">Filtered image will appear here</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Logic
+
+        const imageUpload = document.getElementById('imageUpload');
+        const originalImage = document.getElementById('originalImage');
+        const convertButton = document.getElementById('convertButton');
+        const downloadButton = document.getElementById('downloadButton');
+        const filteredCanvas = document.getElementById('filteredCanvas');
+        const originalPlaceholder = document.getElementById('originalPlaceholder');
+        const filteredPlaceholder = document.getElementById('filteredPlaceholder');
+
+        let uploadedImage = null; // To store the image data once loaded
+
+        // --- 1. Handle Image Upload ---
+        imageUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    originalImage.src = e.target.result;
+                    originalImage.style.display = 'block';
+                    originalPlaceholder.style.display = 'none';
+                    uploadedImage = originalImage; // Store the loaded image element
+                    convertButton.disabled = false; // Enable the convert button
+                    downloadButton.style.display = 'none'; // Hide download until converted
+                    filteredCanvas.style.display = 'none';
+                    filteredPlaceholder.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // If the user clears the selection
+                originalImage.style.display = 'none';
+                originalPlaceholder.style.display = 'flex';
+                uploadedImage = null;
+                convertButton.disabled = true;
+                downloadButton.style.display = 'none';
+                filteredCanvas.style.display = 'none';
+                filteredPlaceholder.style.display = 'flex';
+            }
+        });
+
+        // --- 2. Conversion Logic ---
+        convertButton.addEventListener('click', function() {
+            if (!uploadedImage) return;
+
+            // Ensure the image is fully loaded before drawing to canvas
+            if (uploadedImage.complete) {
+                applyBwScanFilter(uploadedImage);
+            } else {
+                uploadedImage.onload = () => applyBwScanFilter(uploadedImage);
+            }
+        });
+
+        function applyBwScanFilter(img) {
+            // Set canvas dimensions to match the image
+            filteredCanvas.width = img.naturalWidth;
+            filteredCanvas.height = img.naturalHeight;
+            const ctx = filteredCanvas.getContext('2d');
+
+            // Draw the original image onto the canvas
+            ctx.drawImage(img, 0, 0);
+
+            // Get the image data
+            const imageData = ctx.getImageData(0, 0, filteredCanvas.width, filteredCanvas.height);
+            const data = imageData.data;
+
+            // Iterate through every pixel (4 elements: R, G, B, A)
+            for (let i = 0; i < data.length; i += 4) {
+                // Get the red, green, and blue values
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                // Calculate the grayscale value (Luminosity Method is often best for human perception)
+                // Grayscale = 0.2126*R + 0.7152*G + 0.0722*B
+                const avg = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
+
+                // --- The "Scan Look" Effect (Thresholding) ---
+                // This converts the image to pure black or pure white based on a threshold,
+                // which gives it the high-contrast, scanned document look.
+                const threshold = 128; // Mid-point brightness (0-255)
+                const bw = avg > threshold ? 255 : 0; // If brighter than 128, make it white (255), else black (0)
+
+                // Set the R, G, and B values to the new Black/White value
+                data[i] = bw;       // Red
+                data[i + 1] = bw;   // Green
+                data[i + 2] = bw;   // Blue
+                // data[i + 3] (Alpha) remains the same
+            }
+
+            // Put the modified data back onto the canvas
+            ctx.putImageData(imageData, 0, 0);
+
+            // Display the canvas and download button
+            filteredCanvas.style.display = 'block';
+            filteredPlaceholder.style.display = 'none';
+            downloadButton.style.display = 'inline-block';
+        }
+
+        // --- 3. Download Logic ---
+        downloadButton.addEventListener('click', function() {
+            if (filteredCanvas.style.display === 'none') {
+                alert("Please convert an image first.");
+                return;
+            }
+
+            // Get the image data as a JPEG
+            const dataURL = filteredCanvas.toDataURL('image/jpeg', 0.9); // 0.9 is the quality (0 to 1)
+
+            // Create a temporary link element
+            const a = document.createElement('a');
+            a.href = dataURL;
+            a.download = 'filtered_bw_scan.jpg'; // Set the download file name
+
+            // Programmatically click the link to trigger the download
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+    </script>
+</body>
+</html>
