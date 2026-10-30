@@ -145,6 +145,30 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
   border-radius:12px;padding:10px;border:1px solid var(--line)}
 .scan-stage canvas{max-width:100%;max-height:60vh;width:auto;height:auto;background:#fff;box-shadow:0 8px 24px -12px rgba(0,0,0,.4)}
 
+
+/* ---------- Background remover ---------- */
+.keybox{display:flex;gap:8px}
+.keybox input{flex:1;min-width:0;padding:11px 12px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--sunken);font:inherit;font-size:.9rem;color:var(--ink);outline:none;transition:.15s}
+.keybox input:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px var(--accent-soft)}
+.fieldlbl{display:block;font-size:.72rem;font-weight:500;color:var(--muted);margin-bottom:6px;letter-spacing:.02em;text-transform:uppercase}
+.note{font-size:.76rem;color:var(--muted);margin-top:8px}
+.note a{color:var(--accent)}
+.checker{background:conic-gradient(#d9d8d4 25%,#fff 0 50%,#d9d8d4 0 75%,#fff 0) 0 0/16px 16px}
+@media (prefers-color-scheme:dark){.checker{background:conic-gradient(#2e2e32 25%,#3a3a3f 0 50%,#2e2e32 0 75%,#3a3a3f 0) 0 0/16px 16px}}
+.bg-stage{width:100%;display:flex;justify-content:center;border-radius:12px;padding:10px;border:1px solid var(--line);background:var(--sunken)}
+.bg-stage canvas{max-width:100%;max-height:60vh;width:auto;height:auto;box-shadow:0 8px 24px -12px rgba(0,0,0,.4);border-radius:4px}
+.swatches{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.sw{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);position:relative;transition:transform .12s,border-color .15s;flex:none}
+.sw:hover{transform:scale(1.08)}
+.sw[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.sw.none{background:conic-gradient(#d9d8d4 25%,#fff 0 50%,#d9d8d4 0 75%,#fff 0) 0 0/10px 10px}
+.sw.custom{overflow:hidden;background:conic-gradient(#f43f5e,#f59e0b,#84cc16,#06b6d4,#6366f1,#d946ef,#f43f5e)}
+.sw.custom input{position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);opacity:0;cursor:pointer;border:0;padding:0}
+.hexout{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:auto}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:sp .7s linear infinite;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.seg.three{grid-template-columns:1fr 1fr 1fr}
+
 /* ---------- Footer ---------- */
 footer{text-align:center;color:var(--muted);font-size:.78rem;padding:0 20px 24px}
 footer b{color:var(--ink);font-weight:600}
@@ -157,7 +181,7 @@ footer b{color:var(--ink);font-weight:600}
   backdrop-filter:saturate(1.4) blur(18px);-webkit-backdrop-filter:saturate(1.4) blur(18px);
   border-top:1px solid var(--line);
 }
-.bottom nav{max-width:420px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.bottom nav{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .bottom button{
   position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;
   padding:8px 0 6px;border-radius:14px;font-size:.7rem;font-weight:500;color:var(--muted);transition:.18s;
@@ -192,6 +216,8 @@ footer b{color:var(--ink);font-weight:600}
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
   <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
   <symbol id="i-swap" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-wand" viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></symbol>
 </svg>
 
 <header>
@@ -204,6 +230,7 @@ footer b{color:var(--ink);font-weight:600}
       <button role="tab" data-go="photo">Photo</button>
       <button role="tab" data-go="sign">Sign</button>
       <button role="tab" data-go="scan">Scan</button>
+      <button role="tab" data-go="bg">Remove BG</button>
     </div>
   </div>
 </header>
@@ -268,9 +295,72 @@ footer b{color:var(--ink);font-weight:600}
     </div>
   </section>
 
+  <!-- ============ REMOVE BG ============ -->
+  <section class="view" id="view-bg" data-title="Remove Background">
+    <div class="hero">
+      <h1>Remove background</h1>
+      <p>Cut out the background and replace it with any colour — ideal for passport &amp; admission photos.</p>
+    </div>
+
+    <div class="stack" id="bg">
+      <div class="card">
+        <label class="fieldlbl" for="bgKey">remove.bg API key</label>
+        <div class="keybox">
+          <input type="password" id="bgKey" placeholder="Paste your API key" autocomplete="off" spellcheck="false">
+          <button class="btn ghost sm" id="bgKeyShow" type="button">Show</button>
+        </div>
+        <div class="note">Saved only in this browser. Get a free key at <a href="https://www.remove.bg/api" target="_blank" rel="noopener">remove.bg/api</a>. The image is sent to remove.bg for processing.</div>
+      </div>
+
+      <label class="drop" id="bgDrop">
+        <input type="file" accept="image/*" id="bgFile">
+        <div class="ico"><svg class="i"><use href="#i-upload"/></svg></div>
+        <strong>Choose or drop a photo</strong>
+        <span>JPG, PNG, WebP · up to 12 MB</span>
+      </label>
+
+      <div class="card stack" id="bgPanel" hidden>
+        <div class="seg" role="group" aria-label="Preview">
+          <button id="bgShowOrig" aria-pressed="false">Original</button>
+          <button id="bgShowRes" aria-pressed="true">Result</button>
+        </div>
+        <div class="bg-stage" id="bgStage"><canvas id="bgCanvas"></canvas></div>
+
+        <button class="btn primary" id="bgRun"><svg class="i"><use href="#i-wand"/></svg><span>Remove background</span></button>
+
+        <div id="bgColors" hidden class="stack">
+          <div>
+            <label class="fieldlbl"><svg class="i" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px"><use href="#i-palette"/></svg>Background colour</label>
+            <div class="swatches" id="bgSwatches">
+              <button class="sw none" data-c="" aria-pressed="true" aria-label="Transparent" title="Transparent"></button>
+              <button class="sw" data-c="#ffffff" style="background:#ffffff" aria-pressed="false" aria-label="White" title="White"></button>
+              <button class="sw" data-c="#1f6fe5" style="background:#1f6fe5" aria-pressed="false" aria-label="Blue" title="Blue"></button>
+              <button class="sw" data-c="#d62828" style="background:#d62828" aria-pressed="false" aria-label="Red" title="Red"></button>
+              <button class="sw" data-c="#9aa0a6" style="background:#9aa0a6" aria-pressed="false" aria-label="Grey" title="Grey"></button>
+              <button class="sw" data-c="#111111" style="background:#111111" aria-pressed="false" aria-label="Black" title="Black"></button>
+              <label class="sw custom" title="Custom colour" aria-label="Custom colour"><input type="color" id="bgCustom" value="#38bdf8"></label>
+              <span class="hexout" id="bgHex">Transparent</span>
+            </div>
+          </div>
+          <div>
+            <label class="fieldlbl">Download as</label>
+            <div class="seg" role="group" aria-label="Format">
+              <button id="fmtPng" aria-pressed="true">PNG</button>
+              <button id="fmtJpg" aria-pressed="false">JPG</button>
+            </div>
+          </div>
+          <button class="btn primary" id="bgDl"><svg class="i"><use href="#i-download"/></svg>Download</button>
+        </div>
+
+        <button class="btn ghost sm" id="bgChange">Change image</button>
+        <div class="status" id="bgStatus"></div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<footer>© 2025 <b>Photo Resizer</b> · Mahin · Files never leave your device</footer>
+<footer>© 2025 <b>Photo Resizer</b> · Mahin · Photo, Sign &amp; Scan stay on your device · Remove BG uses remove.bg</footer>
 
 <!-- Mobile bottom bar -->
 <div class="bottom">
@@ -278,6 +368,7 @@ footer b{color:var(--ink);font-weight:600}
     <button role="tab" data-go="photo"><svg class="i"><use href="#i-image"/></svg>Photo</button>
     <button role="tab" data-go="sign"><svg class="i"><use href="#i-pen"/></svg>Sign</button>
     <button role="tab" data-go="scan"><svg class="i"><use href="#i-scan"/></svg>Scan</button>
+    <button role="tab" data-go="bg"><svg class="i"><use href="#i-wand"/></svg>Remove BG</button>
   </nav>
 </div>
 
@@ -324,7 +415,7 @@ footer b{color:var(--ink);font-weight:600}
 
 <script>
 /* ================= Router ================= */
-const VIEWS = ['photo','sign','scan'];
+const VIEWS = ['photo','sign','scan','bg'];
 function route(){
   let h = (location.hash||'').replace('#','');
   if(!VIEWS.includes(h)){
@@ -537,6 +628,127 @@ document.querySelectorAll('.editor').forEach(Editor);
   };
   addEventListener('paste',e=>{
     if(!$('view-scan').classList.contains('on')) return;
+    const f=[...(e.clipboardData?.files||[])].find(f=>f.type.startsWith('image/')); if(f) open(f);
+  });
+})();
+
+/* ================= Remove background (remove.bg) ================= */
+(function(){
+  const $=id=>document.getElementById(id);
+  const drop=$('bgDrop'), panel=$('bgPanel'), cv=$('bgCanvas'), ctx=cv.getContext('2d'), stage=$('bgStage');
+  const keyEl=$('bgKey'), st=$('bgStatus'), run=$('bgRun'), colors=$('bgColors');
+  const KEY='removebg_api_key';
+  let origImg=null, origFile=null, cutImg=null, color='', showing='orig', fmt='png';
+
+  try{ keyEl.value=localStorage.getItem(KEY)||''; }catch(e){}
+  keyEl.addEventListener('input',()=>{ try{ localStorage.setItem(KEY,keyEl.value.trim()); }catch(e){} });
+  $('bgKeyShow').onclick=e=>{ const h=keyEl.type==='password'; keyEl.type=h?'text':'password'; e.currentTarget.textContent=h?'Hide':'Show'; };
+
+  function status(msg,cls=''){ st.textContent=msg; st.className='status '+cls; }
+
+  function render(){
+    const src = showing==='res' && cutImg ? cutImg : origImg;
+    if(!src) return;
+    const w=src.naturalWidth||src.width, h=src.naturalHeight||src.height;
+    if(cv.width!==w||cv.height!==h){ cv.width=w; cv.height=h; }
+    ctx.clearRect(0,0,w,h);
+    const solid = showing==='res' && cutImg && (color || fmt==='jpg');
+    if(solid){ ctx.fillStyle=color||'#ffffff'; ctx.fillRect(0,0,w,h); }
+    ctx.drawImage(src,0,0,w,h);
+    stage.classList.toggle('checker', showing==='res' && !!cutImg && !solid);
+  }
+  function setMode(m){
+    showing=m; $('bgShowOrig').setAttribute('aria-pressed',m==='orig'); $('bgShowRes').setAttribute('aria-pressed',m==='res'); render();
+  }
+  function setColor(c){
+    color=c;
+    document.querySelectorAll('#bgSwatches .sw[data-c]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===c));
+    $('bgSwatches').querySelector('.custom').setAttribute('aria-pressed',!!c && ![...document.querySelectorAll('#bgSwatches .sw[data-c]')].some(b=>b.dataset.c===c));
+    $('bgHex').textContent=c?c.toUpperCase():'Transparent';
+    if(!c && fmt==='jpg') $('bgHex').textContent='White (JPG)';
+    if(cutImg) setMode('res'); else render();
+  }
+  function setFmt(f){
+    fmt=f; $('fmtPng').setAttribute('aria-pressed',f==='png'); $('fmtJpg').setAttribute('aria-pressed',f==='jpg');
+    setColor(color);
+  }
+
+  async function open(file){
+    try{
+      origImg=await loadImage(file); origFile=file; cutImg=null;
+      drop.hidden=true; panel.hidden=false; colors.hidden=true;
+      run.disabled=false; run.querySelector('span').textContent='Remove background';
+      setColor(''); setMode('orig'); status('');
+    }catch(e){ alert(e.message); }
+  }
+
+  /* Re-encode very large images so they stay under remove.bg's 12 MB upload limit */
+  async function prepareUpload(){
+    if(origFile.size<=10*1024*1024) return origFile;
+    const s=Math.min(1,3000/Math.max(origImg.naturalWidth,origImg.naturalHeight));
+    const c=document.createElement('canvas'); c.width=Math.round(origImg.naturalWidth*s); c.height=Math.round(origImg.naturalHeight*s);
+    c.getContext('2d').drawImage(origImg,0,0,c.width,c.height);
+    return await toBlob(c,.92);
+  }
+
+  async function removeBg(){
+    const key=keyEl.value.trim();
+    if(!key){ status('Paste your remove.bg API key first.','err'); keyEl.focus(); return; }
+    if(!origFile) return;
+    run.disabled=true;
+    const label=run.querySelector('span'); const ico=run.querySelector('svg');
+    ico.outerHTML='<span class="spin" id="bgSpin"></span>'; label.textContent='Removing background…'; status('');
+    try{
+      const body=new FormData();
+      body.append('image_file', await prepareUpload(), origFile.name||'image.jpg');
+      body.append('size','auto');
+      body.append('format','png');
+      const res=await fetch('https://api.remove.bg/v1.0/removebg',{method:'POST',headers:{'X-Api-Key':key},body});
+      if(!res.ok){
+        let msg='Request failed ('+res.status+').';
+        try{ const j=await res.json(); if(j.errors&&j.errors[0]) msg=j.errors[0].title+(j.errors[0].detail?': '+j.errors[0].detail:''); }catch(e){}
+        if(res.status===403) msg='Invalid API key. Please check it and try again.';
+        if(res.status===402) msg='No credits left on this remove.bg account.';
+        if(res.status===429) msg='Rate limit reached. Wait a moment and try again.';
+        throw new Error(msg);
+      }
+      const blob=await res.blob();
+      const url=URL.createObjectURL(blob), im=new Image();
+      await new Promise((ok,bad)=>{ im.onload=ok; im.onerror=()=>bad(new Error('Could not read the result image.')); im.src=url; });
+      cutImg=im;
+      colors.hidden=false; setMode('res');
+      status('Done · pick a background colour below','ok');
+      colors.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }catch(e){
+      status(e instanceof TypeError ? 'Network error — check your connection and try again.' : e.message,'err');
+    }finally{
+      const sp=$('bgSpin'); if(sp) sp.outerHTML='<svg class="i"><use href="#i-wand"/></svg>';
+      label.textContent=cutImg?'Remove again':'Remove background'; run.disabled=false;
+    }
+  }
+
+  wireDrop(drop,$('bgFile'),open);
+  $('bgChange').onclick=()=>$('bgFile').click();
+  $('bgFile').addEventListener('change',()=>{});
+  run.onclick=removeBg;
+  $('bgShowOrig').onclick=()=>setMode('orig');
+  $('bgShowRes').onclick=()=>{ if(!cutImg){ status('Tap “Remove background” first.'); return; } setMode('res'); };
+  document.querySelectorAll('#bgSwatches .sw[data-c]').forEach(b=>b.onclick=()=>setColor(b.dataset.c));
+  $('bgCustom').addEventListener('input',e=>setColor(e.target.value));
+  $('fmtPng').onclick=()=>setFmt('png'); $('fmtJpg').onclick=()=>setFmt('jpg');
+
+  $('bgDl').onclick=async()=>{
+    if(!cutImg) return;
+    const prev=showing; if(prev!=='res') setMode('res');
+    const blob = fmt==='jpg' ? await toBlob(cv,.95) : await new Promise(r=>cv.toBlob(r,'image/png'));
+    saveBlob(blob,`background_removed.${fmt}`);
+    status(`Saved · ${cv.width}×${cv.height}px · ${(blob.size/1024).toFixed(0)} KB`,'ok');
+    if(prev!=='res') setMode(prev);
+  };
+
+  addEventListener('paste',e=>{
+    if(!$('view-bg').classList.contains('on')) return;
+    if(e.target===keyEl) return;
     const f=[...(e.clipboardData?.files||[])].find(f=>f.type.startsWith('image/')); if(f) open(f);
   });
 })();
